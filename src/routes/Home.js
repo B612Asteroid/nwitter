@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Nweet from "../components/Nweet";
-import { dbService, storageService } from "../fbBase";
-import { v4 as uuidv4 } from 'uuid';
+import { dbService } from "../fbBase";
+import NweetFactory from "components/NweetFactory";
 
 const Home = ({ loginedUser }) => {
 
-    const [ nweet, setNweet ] = useState("");
     const [ nweets, setNweets ] = useState([]);
-    const [ attachment, setAttachment ] = useState();
 
     useEffect(() => {
         dbService.collection("nweets").onSnapshot(snapshot => {
@@ -22,8 +20,9 @@ const Home = ({ loginedUser }) => {
     }, []);
 
     return (
-        <div>
-            <div>
+        <div className="container">
+            <NweetFactory loginedUser={ loginedUser } />
+            <div style={{ marginTop: 30 }}>
                 {
                     nweets.map(nweet => <Nweet key={ nweet.id } nweetObj={ nweet } isOwner={ nweet.creatorId === loginedUser.uid } />)
                 }

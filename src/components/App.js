@@ -32,6 +32,8 @@ function App() {
         
       });
       //setUserObj(Object.assign({}, user));
+    } else {
+      setUserObj(null);
     }
   }
 
