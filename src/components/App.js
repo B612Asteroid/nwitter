@@ -11,13 +11,33 @@ function App() {
   useEffect(() => {
     authService.onAuthStateChanged((user) => {
       setInit(true);
-      setUserObj(user);
-      console.log(user);
+      if (user) {
+        setUserObj({
+          displayName: user.displayName,
+          uid: user.uid,
+          updateProfile: (args) => user.updateProfile(args),
+        });
+        //setUserObj(user);
+      }      
     });
-  }, [])
+  }, []);
+
+  const refreshUser = () => {
+    const user = authService.currentUser;
+    if (user) {
+      setUserObj({
+        displayName: user.displayName,
+        uid: user.uid,
+        updateProfile: (args) => user.updateProfile(args),
+        
+      });
+      //setUserObj(Object.assign({}, user));
+    }
+  }
+
   return (
     <>
-      { init ? <AppRouter isLoggedIn={ Boolean(userObj) } loginedUser={userObj}/> : "initializing..."}
+      { init ? <AppRouter refreshUser={refreshUser} isLoggedIn={ Boolean(userObj) } loginedUser={userObj}/> : "initializing..."}
     </>
   );
 }

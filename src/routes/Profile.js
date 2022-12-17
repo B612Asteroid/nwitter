@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { authService } from "fbase";
+import { authService } from "../fbBase";
 import { useHistory } from "react-router-dom";
 
-export default ({ loginedUser }) => {
+const Profile = ({ refreshUser, loginedUser }) => {
     const history = useHistory();
     const [newDisplayName, setNewDisplayName] = useState(loginedUser.displayName);
     const onLogOutClick = () => {
@@ -21,6 +21,7 @@ export default ({ loginedUser }) => {
             await loginedUser.updateProfile({
                 displayName: newDisplayName,
             });
+            refreshUser();
         }
     };
     return (
@@ -38,3 +39,5 @@ export default ({ loginedUser }) => {
         </>
     );
 };
+
+export default Profile;
